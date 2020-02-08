@@ -5,4 +5,4 @@ let e = 5
 let n = 9
 let z = 8
 var s;
-console.log(3);
+console.log(2);
