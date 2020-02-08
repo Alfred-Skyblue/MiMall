@@ -1,2 +1,2 @@
 let a = 1
-let c = 4
+let b = 2
