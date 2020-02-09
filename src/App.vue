@@ -5,13 +5,21 @@
 </template>
 
 <script>
+import storage from './storage'
 export default {
   name: 'App',
   components: {},
   data() {
     return {}
   },
-  mounted() {}
+  mounted() {
+    // storage.setItem('a',1)
+    // storage.setItem('user',{a:1})
+    // storage.setItem('a',1,'user')
+    // storage.setItem('abc',{a:1},'user')
+    storage.clear('a','user')
+    
+  }
 }
 </script>
 
