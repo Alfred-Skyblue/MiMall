@@ -44,7 +44,7 @@ export default {
   clear(key, module_name) {
     let val = this.getStorage()
     if (module_name) {
-      delete val[module_name][key]
+      if (val[module_name]) delete val[module_name][key]
     } else {
       delete val[key]
     }
