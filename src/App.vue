@@ -5,20 +5,21 @@
 </template>
 
 <script>
-import storage from './storage'
 export default {
   name: 'App',
   components: {},
   data() {
-    return {}
+    return {
+      res:{}
+    }
   },
   mounted() {
-    // storage.setItem('a',1)
-    // storage.setItem('user',{a:1})
-    // storage.setItem('a',1,'user')
-    // storage.setItem('abc',{a:1},'user')
-    storage.clear('a','user')
-    
+    // 本地加载请求静态 json 文件的形式
+    this.axios.get('/mock/user/login.json')
+    .then((res) => {
+      this.res=res
+    })
+
   }
 }
 </script>
