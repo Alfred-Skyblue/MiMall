@@ -7,7 +7,8 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import axios from 'axios'
+// import axios from 'axios'
+import jsonp from 'jsonp'
 export default {
   name: 'App',
   components: {
@@ -15,14 +16,19 @@ export default {
   },
   data() {
     return {
-      age: 20
+      age: 20,
+      data: ''
     }
   },
   mounted() {
-    let url =
-      'https://easy-mock.com/mock/5b012c1fe6e1035843cd3aff/mockapi/table/list'
-    axios.get(url).then(val => {
-      console.log(val)
+    let url = 'https://www.imooc.com/common/adver-getadver'
+    // axios.get(url, val => {
+    //   console.log(val)
+    // })
+    jsonp(url, (err, res) => {
+      let result = res
+      this.data = result
+      console.log(result)
     })
   }
 }
