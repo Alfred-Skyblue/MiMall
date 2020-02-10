@@ -1,6 +1,6 @@
 <template>
   <div>
-    Home
+    
     <nav-header></nav-header>
     <router-view></router-view>
     <nav-footer></nav-footer>
@@ -21,6 +21,6 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 
 </style>
