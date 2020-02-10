@@ -27,7 +27,7 @@ axios.interceptors.response.use(function(response) {
     alert(res.msg)
   }
 })
-
+window.location.href = 'http://www.baidu.com'
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 

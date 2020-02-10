@@ -10,27 +10,11 @@ export default {
   components: {},
   data() {
     return {
-      res: {}
+      
     }
   },
   mounted() {
-    // // 本地加载请求静态 json 文件的形式
-    // this.axios.get('/mock/user/login.json')
-    // .then((res) => {
-    //   this.res=res
-    // })
-
-    // // 通过easy-mock平台实现数据mock
-    // this.axios.get('/mock/user/login.json')
-    // .then((res) => {
-    //   this.res=res
-    // })
-
-    // 本地集成 mockjs 实现数据 mock
-    this.axios.get('user/login').then(res => {
-      this.res = res
-      console.log(res)
-    })
+   
   }
 }
 </script>
