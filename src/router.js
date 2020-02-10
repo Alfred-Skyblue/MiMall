@@ -5,6 +5,7 @@ import Index from './pages/index'
 import Product from './pages/product'
 import Detail from './pages/detail'
 import Cart from './pages/cart'
+import Login from './pages/login'
 import Order from './pages/order'
 import OrderConfirm from './pages/orderConfirm'
 import OrderList from './pages/orderList'
@@ -37,6 +38,11 @@ export default new Router({
           component: Detail
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/cart',

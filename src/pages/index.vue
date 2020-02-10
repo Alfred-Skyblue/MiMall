@@ -2,6 +2,42 @@
   <div class="index">
     <div class="swiper-container">
       <div class="swiper-box">
+        <div class="nav-menu">
+          <ul class="menu-wrap">
+            <li class="menu-item">
+              <a href="javascript:;">手机 电话卡</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">电视 盒子</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">笔记本 平板</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">家电 插线板</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">出行 穿戴</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">智能 路由器</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">电源 配件</a>
+              <div class="children"></div>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:;">生活 箱包</a>
+              <div class="children"></div>
+            </li>
+          </ul>
+        </div>
         <swiper :options="swiperOption">
           <swiper-slide v-for="(item, index) in slideList" :key="index">
             <a :href="'/#/product/'+item.id"><img :src="item.img" alt=""></a>
@@ -82,13 +118,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+@import './../assets/scss/mixin.scss';
+@import './../assets/scss/config.scss';
 .index{
   .swiper-container {
       height: 451px;
+      .swiper-button-prev{
+        left: 274px;
+      }
       img{
         width: 100%;
         height: 100%;
+      }
+      .swiper-box{
+        .nav-menu{
+          position: absolute;
+          width: 264px;
+          height: 451px;
+          z-index: 9;
+          padding: 26px 0;
+          background-color: #55585a7a;
+          box-sizing: border-box;
+          .menu-wrap{
+            
+            .menu-item{
+              
+              line-height: 50px;
+              a{
+                padding-left: 30px;
+                display: block;
+                position: relative;
+                font-size: 16px;
+                color: #fff;
+                &:after{
+                  position: absolute;
+                  top: 17.5px;
+                  right: 30px;
+                  content: '';
+                  @include bgImg(10px,15px,'/imgs/icon-arrow.png')
+                }
+              }
+              &:hover{
+                background-color: $colorA;
+                .children{
+                  display: block;
+                  background-color: red;
+                }
+              }
+            }
+          }
+        }
       }
   } 
 }
