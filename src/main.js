@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueCookie from 'vue-cookie'
 import router from './router'
 import App from './App.vue'
 // import env from './env'
@@ -28,6 +29,7 @@ axios.interceptors.response.use(function(response) {
   }
 })
 Vue.use(VueAxios, axios)
+Vue.use(VueCookie)
 Vue.config.productionTip = false
 
 new Vue({
