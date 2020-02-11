@@ -275,7 +275,6 @@ export default {
 @import './../assets/scss/base.scss';
 .index {
   .swiper-container {
-    overflow: visible;
     height: 451px;
     .swiper-button-prev {
       left: 274px;

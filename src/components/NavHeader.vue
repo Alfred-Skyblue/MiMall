@@ -9,11 +9,11 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;" v-if="username">{{username}}</a>
+          <a href="javascript:;" v-if="username">{{ username }}</a>
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
           <a href="javascript:;">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart">
-            <span class="icon-cart"></span>购物车
+            <span class="icon-cart"></span>购物车({{ cartCount }})
           </a>
         </div>
       </div>
@@ -31,18 +31,14 @@
             <div class="children">
               <ul>
                 <li class="product" v-for="item of phoneList" :key="item.id">
-                  <a :href="'/#/product/'+item.id" target="_blank">
+                  <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
-                      <img
-                        v-lazy="item.mainImage"
-                        :alt="item.subtitle"
-                      />
+                      <img v-lazy="item.mainImage" :alt="item.subtitle" />
                     </div>
                     <div class="pro-name">{{ item.name }}</div>
                     <div class="pro-price">{{ item.price | currency }}</div>
                   </a>
                 </li>
-                
               </ul>
             </div>
           </div>
@@ -127,46 +123,56 @@
 <script>
 export default {
   name: 'nav-header',
-  data () {
+  data() {
     return {
-      username: '远方',
       phoneList: []
     }
   },
-  filters:{
-    currency(val){
-      if (!val) return '0.00'
-      return '￥'+val.toFixed(2)+'元'
+  computed: {
+    username() {
+      return this.$store.state.username
+    },
+    cartCount() {
+      return this.$store.state.cartCount
     }
   },
-  mounted () {
+  filters: {
+    currency(val) {
+      if (!val) return '0.00'
+      return '￥' + val.toFixed(2) + '元'
+    }
+  },
+  mounted() {
     this.getProductList()
   },
   methods: {
-    login () {
-      this.$router('/login')
+    login() {
+      console.log(1)
+      this.$router.push('/login')
     },
-    getProductList(){
-        this.axios.get('/products',{
-          params:{
-            categoryId:'100012',
-            pageSize:6
+    getProductList() {
+      this.axios
+        .get('/products', {
+          params: {
+            categoryId: '100012',
+            pageSize: 6
           }
-        }).then((res)=>{
-          this.phoneList = res.list;
         })
-      },
-      goToCart () {
-        this.$router.push('/cart')
-      }
+        .then(res => {
+          this.phoneList = res.list
+        })
+    },
+    goToCart() {
+      this.$router.push('/cart')
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "./../assets/scss/base.scss";
-@import "./../assets/scss/mixin.scss";
-@import "./../assets/scss/config.scss";
+@import './../assets/scss/base.scss';
+@import './../assets/scss/mixin.scss';
+@import './../assets/scss/config.scss';
 .header {
   .nav-topbar {
     height: 39px;
@@ -185,8 +191,9 @@ export default {
         background-color: #f60;
         text-align: center;
         color: #fff;
+        margin-right: 0;
         .icon-cart {
-          @include bgImg(16px, 12px, "/imgs/icon-cart-checked.png");
+          @include bgImg(16px, 12px, '/imgs/icon-cart-checked.png');
           margin-right: 4px;
         }
       }
@@ -208,13 +215,13 @@ export default {
           width: 110px;
           height: 55px;
           &:before {
-            content: "";
-            @include bgImg(55px, 55px, "/imgs/mi-logo.png", 55px);
+            content: '';
+            @include bgImg(55px, 55px, '/imgs/mi-logo.png', 55px);
             transition: margin 0.2s;
           }
           &:after {
-            content: "";
-            @include bgImg(55px, 55px, "/imgs/mi-home.png", 55px);
+            content: '';
+            @include bgImg(55px, 55px, '/imgs/mi-home.png', 55px);
           }
           &:hover:before {
             margin-left: -55px;
@@ -283,7 +290,7 @@ export default {
                 color: $colorA;
               }
               &:before {
-                content: "";
+                content: '';
                 position: absolute;
                 top: 28px;
                 right: 0;
@@ -314,7 +321,7 @@ export default {
             padding-left: 14px;
           }
           a {
-            @include bgImg(18px, 18px, "/imgs/icon-search.png");
+            @include bgImg(18px, 18px, '/imgs/icon-search.png');
             margin-left: 17px;
           }
         }
