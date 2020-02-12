@@ -120,7 +120,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scopend>
 @import './../assets/scss/mixin.scss';
 .product {
   .content {

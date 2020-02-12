@@ -10,7 +10,10 @@
                 <ul v-for="(item, index) in menuList" :key="index">
                   <li v-for="sub in item" :key="sub.id">
                     <a :href="sub ? '/#/product/' + sub.id : ''">
-                      <img v-lazy="sub ? sub.img : '/imgs/item-box-1.png'" alt />
+                      <img
+                        v-lazy="sub ? sub.img : '/imgs/item-box-1.png'"
+                        alt
+                      />
                       {{ sub ? sub.name : '小米9' }}
                     </a>
                   </li>
@@ -110,7 +113,7 @@
       modelType="middle"
       :showModal="showModal"
       @submit="goToCart"
-      @cancel="showModal=false"
+      @cancel="showModal = false"
     >
       <template v-slot:body>
         <p>商品添加成功</p>
@@ -167,11 +170,11 @@ export default {
           img: '/imgs/slider/slide-3.jpg'
         },
         {
-          id: '',
+          id: '47',
           img: '/imgs/slider/slide-4.jpg'
         },
         {
-          id: '',
+          id: '48',
           img: '/imgs/slider/slide-5.jpg'
         }
       ],
@@ -244,20 +247,22 @@ export default {
         })
     },
     addCart(id) {
-      this.showModal = true
       if (this.showModal) return
       this.axios
         .post('/carts', {
           productId: id,
           selected: true
         })
-        .then(() => {})
+        .then(res => {
+          this.showModal = true
+          this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+        })
         .catch(() => {
           this.showModal = true
         })
     },
-    goToCart () {
-      this.$router.push('/cart');
+    goToCart() {
+      this.$router.push('/cart')
     }
   },
   filters: {

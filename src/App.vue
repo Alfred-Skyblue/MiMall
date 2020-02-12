@@ -18,7 +18,6 @@ export default {
   methods: {
     getUser() {
       this.axios.get('/user').then((res = {}) => {
-        console.log(res)
         this.$store.dispatch('saveUserName', res.username)
         // TODO: 保存到 vuex 里面
       })
