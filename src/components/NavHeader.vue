@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'nav-header',
   data() {
@@ -129,13 +130,16 @@ export default {
     }
   },
   computed: {
-    username() {
-      return this.$store.state.username
-    },
-    cartCount() {
-      return this.$store.state.cartCount
-    }
+    // username() {
+    //   return this.$store.state.username
+    // },
+    // cartCount() {
+    //   return this.$store.state.cartCount
+    // }
+    // TODO:使用 mapState 简写的方式获取 vuex 属性
+    ...mapState(['username', 'cartCount'])
   },
+
   filters: {
     currency(val) {
       if (!val) return '0.00'

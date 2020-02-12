@@ -78,6 +78,8 @@ export default {
           this.$router.push('/index')
         })
     },
+
+    // TODO:使用 mapActions 简写的方式设置 vuex 属性
     ...mapActions(['saveUserName']),
     register() {
       this.axios
