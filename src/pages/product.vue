@@ -235,13 +235,12 @@ export default {
           z-index: 10;
           width: 1000px;
           height: 536px;
-          opacity: 1;
+          opacity: 0;
           &.slideDown {
-            animation: slideDown 0.6s linear;
-            top: 50%;
+            animation: slideDown 0.6s linear forwards;
           }
           &.slideUp {
-            animation: slideUp 0.6s linear;
+            animation: slideUp 0.6s linear forwards;
           }
           .icon-close {
             position: absolute;
