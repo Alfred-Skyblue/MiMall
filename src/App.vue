@@ -12,8 +12,10 @@ export default {
     return {}
   },
   mounted() {
-    this.getUser()
-    this.getCart()
+    if (this.$cookie.get('userId')) {
+      this.getUser()
+      this.getCartCount()
+    }
   },
   methods: {
     getUser() {
@@ -23,8 +25,9 @@ export default {
       })
     },
 
-    getCart() {
+    getCartCount() {
       this.axios.get('/carts/products/sum').then((res = 0) => {
+        console.log(1)
         this.$store.dispatch('saveCartCount', res)
       })
     }
