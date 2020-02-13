@@ -1,6 +1,6 @@
 .modal {
   @include position(fixed);
-  z-index: 9999;
+  z-index: 99;
   transition: all 0.5s;
 
   .mask {
