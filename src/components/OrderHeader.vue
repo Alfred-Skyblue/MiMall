@@ -39,6 +39,7 @@ export default {
 <style lang="scss" scoped>
 .order-header {
   padding: 30px 0;
+  border-bottom: 2px solid #f60;
   .header-logo {
     float: left;
   }
@@ -56,7 +57,12 @@ export default {
       font-size: 14px;
       margin-left: 17px;
       color: #999;
-      font-weight: bold;
+      font-weight: 200;
+    }
+    h2 {
+      margin-left: 50px;
+      font-size: 28px;
+      color: 33px;
     }
   }
   .username {

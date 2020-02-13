@@ -11,6 +11,7 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{ username }}</a>
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
+          <a href="javascript:;" v-if="username" @click="logout">退出</a>
           <a href="javascript:;">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart">
             <span class="icon-cart"></span>购物车({{ cartCount }})
@@ -121,13 +122,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  name: 'nav-header',
+  name: "nav-header",
   data() {
     return {
       phoneList: []
-    }
+    };
   },
   computed: {
     // username() {
@@ -137,46 +138,50 @@ export default {
     //   return this.$store.state.cartCount
     // }
     // TODO:使用 mapState 简写的方式获取 vuex 属性
-    ...mapState(['username', 'cartCount'])
+    ...mapState(["username", "cartCount"])
   },
 
   filters: {
     currency(val) {
-      if (!val) return '0.00'
-      return '￥' + val.toFixed(2) + '元'
+      if (!val) return "0.00";
+      return "￥" + val.toFixed(2) + "元";
     }
   },
   mounted() {
-    this.getProductList()
+    this.getProductList();
   },
   methods: {
     login() {
-      console.log(1)
-      this.$router.push('/login')
+      console.log(1);
+      this.$router.push("/login");
     },
     getProductList() {
       this.axios
-        .get('/products', {
+        .get("/products", {
           params: {
-            categoryId: '100012',
+            categoryId: "100012",
             pageSize: 6
           }
         })
         .then(res => {
-          this.phoneList = res.list
-        })
+          this.phoneList = res.list;
+        });
     },
     goToCart() {
-      this.$router.push('/cart')
+      this.$router.push("/cart");
+    },
+
+    logout() {
+      this.axios.post("/user/logout");
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import './../assets/scss/base.scss';
-@import './../assets/scss/mixin.scss';
-@import './../assets/scss/config.scss';
+@import "./../assets/scss/base.scss";
+@import "./../assets/scss/mixin.scss";
+@import "./../assets/scss/config.scss";
 .header {
   .nav-topbar {
     height: 39px;
@@ -197,7 +202,7 @@ export default {
         color: #fff;
         margin-right: 0;
         .icon-cart {
-          @include bgImg(16px, 12px, '/imgs/icon-cart-checked.png');
+          @include bgImg(16px, 12px, "/imgs/icon-cart-checked.png");
           margin-right: 4px;
         }
       }
@@ -271,7 +276,7 @@ export default {
                 color: $colorA;
               }
               &:before {
-                content: '';
+                content: "";
                 position: absolute;
                 top: 28px;
                 right: 0;
@@ -302,7 +307,7 @@ export default {
             padding-left: 14px;
           }
           a {
-            @include bgImg(18px, 18px, '/imgs/icon-search.png');
+            @include bgImg(18px, 18px, "/imgs/icon-search.png");
             margin-left: 17px;
           }
         }

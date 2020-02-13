@@ -33,6 +33,7 @@
                 <span
                   class="checkbox"
                   v-bind:class="{ checked: item.productSelected }"
+                  @click="undataCart(item)"
                 ></span>
               </div>
               <div class="item-name">
@@ -44,13 +45,13 @@
               <div class="item-price">{{ item.productPrice }}</div>
               <div class="item-num">
                 <div class="num-box">
-                  <a href="javascript:;">-</a>
+                  <a href="javascript:;" @click="undataCart(item, '-')">-</a>
                   <span>{{ item.quantity }}</span>
-                  <a href="javascript:;">+</a>
+                  <a href="javascript:;" @click="undataCart(item, '+')">+</a>
                 </div>
               </div>
               <div class="item-total">{{ item.productTotalPrice }}</div>
-              <div class="item-del"></div>
+              <div class="item-del" @click="delProduct(item)"></div>
             </li>
           </ul>
         </div>
@@ -67,7 +68,7 @@
             合计：
             <span>{{ cartTotalPrice }}</span
             >元
-            <a href="javascript:;" class="btn">去结算</a>
+            <a href="javascript:;" class="btn" @click="order">去结算</a>
           </div>
         </div>
       </div>
@@ -80,6 +81,7 @@
 import OrderHeader from './../components/OrderHeader'
 import ServiceBar from './../components/ServiceBar'
 import NavFooter from './../components/NavFooter'
+import { Message } from 'element-ui'
 export default {
   name: 'index',
   components: {
@@ -99,22 +101,67 @@ export default {
     this.getCartList()
   },
   methods: {
+    // TODO:初始化购物车数据
     getCartList() {
       this.axios.get('/carts').then(res => {
         this.renderData(res)
       })
     },
+    // TODO:更新购物车数据和购物车单选状态
+    undataCart(item, type) {
+      let quantity = item.quantity
+      let selected = item.productSelected
+      if (type == '-') {
+        if (quantity == 1) {
+          Message.warning('至少保留一件商品')
+          return false
+        }
+
+        --quantity
+      } else if (type == '+') {
+        if (quantity > item.productStock) {
+          Message.info('库存不足')
+          return false
+        }
+        ++quantity
+      } else {
+        selected = !item.productSelected
+      }
+      this.axios
+        .put(`/carts/${item.productId}`, {
+          quantity,
+          selected
+        })
+        .then(res => {
+          this.renderData(res)
+        })
+    },
+    // TODO:删除购物车商品
+    delProduct(item) {
+      this.axios.delete(`/carts/${item.productId}`).then(res => {
+        this.$message.success('删除成功')
+        this.renderData(res)
+      })
+    },
+    // TODO:切换全选购物车数据
     toggleAll() {
       let url = this.allChecked ? '/carts/unSelectAll' : '/carts/selectAll'
       this.axios.put(url).then(res => {
         this.renderData(res)
       })
     },
+    // 公共赋值
     renderData(res) {
       this.list = res.cartProductVoList || []
       this.allChecked = res.selectedAll
       this.cartTotalPrice = res.cartTotalPrice
       this.checkedNum = this.list.filter(item => item.productSelected).length
+    },
+    // TODO:购物车下单
+    order() {
+      let isCheck = this.list.every(item => !item.productSelected)
+      if (isCheck) return Message.warning('请选择商品')
+      this.$router.push('/order/confirm')
     }
   }
 }
