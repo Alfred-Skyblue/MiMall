@@ -33,9 +33,6 @@ axios.interceptors.response.use(
     } else if (res.status == 10) {
       if (path != '#/index') {
         window.location.href = '/#/login'
-        console.log()
-
-        console.log('哈哈')
       }
       return Promise.reject(res)
     } else {

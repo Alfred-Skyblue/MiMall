@@ -5,7 +5,7 @@
   align-items: $col;
 }
 
-@mixin bgImg($w: 0, $h: 0, $img: "", $size: contain) {
+@mixin bgImg($w: 0, $h: 0, $img: '', $size: contain) {
   display: inline-block;
   width: $w;
   height: $h;
@@ -21,12 +21,24 @@
   height: $h;
 }
 
-@mixin positionImg($img:'', $pos: absolute, $top: 0, $right: 0, $w: 0, $h: 0) {
+@mixin positionImg($img: '', $pos: absolute, $top: 0, $right: 0, $w: 0, $h: 0) {
   position: $pos;
-  top: $top+px;
-  right: $right+px;
-  width: $w +px;
-  height: $h +px;
+  top: $top + px;
+  right: $right + px;
+  width: $w + px;
+  height: $h + px;
   background: url($img) no-repeat center;
   background-size: contain;
+}
+
+@mixin height($h: 0, $lh: $h) {
+  height: $h;
+  line-height: $lh;
+}
+@mixin wH($w: 0, $h: 0) {
+  width: $w;
+  height: $h;
+}
+@mixin border($bw: 1px, $bc: $colorF, $bs: solid) {
+  border: $bw $bs $bc;
 }
