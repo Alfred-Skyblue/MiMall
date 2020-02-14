@@ -7,7 +7,7 @@
     </order-header>
     <div class="wrapper">
       <div class="container">
-        <div class="order-box" ref="multipleTable">
+        <div class="order-box">
           <loading v-if="loading"></loading>
           <div class="order" v-for="(item, index) in list" :key="index">
             <div class="order-title">
@@ -57,7 +57,6 @@
             </div>
           </div>
           <el-pagination
-            v-if="false"
             class="pagination"
             background
             layout="prev, pager, next"
@@ -66,10 +65,26 @@
             @current-change="handleChange"
           >
           </el-pagination>
-          <div class="load-more">
-            <el-button type="primary" :loading="loading" @click="loadMore"
+          <div class="load-more" v-if="false">
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="loadMore"
+              v-show="loading"
               >加载更多</el-button
             >
+          </div>
+          <div
+            class="scroll-more"
+            v-infinite-scroll="scrollMore"
+            infinite-scroll-disabled="busysave"
+            infinite-scroll-distance="410"
+            v-if="false"
+          >
+            <img
+              src="/imgs/loading-svg/loading-spinning-bubbles.svg"
+              v-show="loading"
+            />
           </div>
           <no-data v-if="!loading && list.length == 0"></no-data>
         </div>
@@ -81,6 +96,7 @@
 import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 import NoData from './../components/NoData'
+import infiniteScroll from 'vue-infinite-scroll'
 import { Pagination, Button } from 'element-ui'
 export default {
   name: 'order-list',
@@ -91,13 +107,19 @@ export default {
     [Pagination.name]: Pagination,
     [Button.name]: Button
   },
+  directives: {
+    infiniteScroll
+  },
   data() {
     return {
-      list: [],
       loading: false,
+      list: [],
       pageSize: 10,
       pageNum: 1,
-      total: 0
+      total: 0,
+      showNextPage: true, //加载更多：是否显示按钮
+      busy: false, //滚动加载，是否触发
+      busysave: true
     }
   },
   mounted() {
@@ -105,6 +127,65 @@ export default {
   },
   methods: {
     getOrderList() {
+      this.loading = true
+      this.busy = true
+      this.axios
+        .get('/orders', {
+          params: {
+            pageSize: 5,
+            pageNum: this.pageNum
+          }
+        })
+        .then(res => {
+          this.loading = false
+          // 加载更多时使用
+          // this.list = this.list.concat(res.list)
+          this.list = res.list
+          this.total = res.total
+          this.showNextPage = res.hasNextPage
+          this.busy = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    },
+    goPay(orderNo) {
+      // 三种路由跳转方式
+      // this.$router.push('/order/pay')
+      /*this.$router.push({
+          name:'order-pay',
+          query:{
+            orderNo
+          }
+        })*/
+      this.$router.push({
+        path: '/order/pay',
+        query: {
+          orderNo
+        }
+      })
+    },
+    // 第一种方法：分页器
+    handleChange(pageNum) {
+      this.pageNum = pageNum
+      this.getOrderList()
+      window.scrollTo(0, 0)
+    },
+    // 第二种方法：加载更多按钮
+    loadMore() {
+      this.pageNum++
+      this.getOrderList()
+    },
+    // 第三种方法：滚动加载，通过npm插件实现
+    scrollMore() {
+      this.busy = true
+      setTimeout(() => {
+        this.pageNum++
+        this.getList()
+      }, 500)
+    },
+    // 专门给scrollMore使用
+    getList() {
       this.loading = true
       this.axios
         .get('/orders', {
@@ -114,40 +195,14 @@ export default {
           }
         })
         .then(res => {
-          this.loading = false
           this.list = this.list.concat(res.list)
-          this.total = res.total
-        })
-        .catch(() => {
           this.loading = false
+          if (res.hasNextPage) {
+            this.busy = false
+          } else {
+            this.busy = true
+          }
         })
-    },
-    goPay(orderNo) {
-      // 跳转支付页面
-      // this.$router.push('/order/pay')
-      // this.$router.push({
-      //   name: 'order-pay',
-      //   query: {
-      //     orderNo
-      //   }
-      // })
-      this.$router.push({
-        path: '/order/pay',
-        query: {
-          orderNo
-        }
-      })
-    },
-    handleChange(pageNum) {
-      this.pageNum = pageNum
-      this.getOrderList()
-    },
-    loadMore() {
-      this.pageNum++
-      this.getOrderList()
-      console.dir(this.$refs.multipleTable)
-
-      this.$refs.multipleTable.clientHeight = 0
     }
   }
 }
