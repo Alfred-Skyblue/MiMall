@@ -12,4 +12,5 @@ module.exports = {
       }
     }
   }
+  // publicPath: '/app'
 }
